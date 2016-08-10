@@ -58,6 +58,51 @@ class Messenger extends Adapter
         }
         @_sendMsg envelope, message
 
+    sendPostbackButton: (envelope, strings, buttons...) ->
+        buttonMessages = []
+        for button in buttons
+            buttonMessage = {
+                "type": "postback",
+                "title": button.title,
+                "payload": button.payload
+            }
+
+            buttonMessages.push buttonMessage
+
+        message = {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "test": strings,
+                    "buttons": buttonMessages
+                }
+            }
+        }
+        @_sendMsg envelope, message
+
+    sendImageMessage: (envelope, url) ->
+        message = {
+            "attachment": {
+                "type":"image",
+                "payload": {
+                    "url": url
+                }
+            }
+        }
+        @_sendMsg envelope, message
+
+    sendVidemMessage: (envelope, url) ->
+        message = {
+            "attachment": {
+                "type":"video",
+                "payload": {
+                    "url": url
+                }
+            }
+        }
+        @_sendMsg envelope, message
+
     reply: (envelope, strings...) ->
         @_sendMsg envelope, envelope.user.name + ": " + strings.join "\n #{envelope.user.name}: "
 
