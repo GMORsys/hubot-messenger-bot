@@ -61,61 +61,6 @@ class Messenger extends Adapter
         for sendMessage in strings
             @_sendMsg envelope, sendMessage
 
-    textMessage: (strings) ->
-        text = strings.join "\n"
-        message = {
-            # Facebook Messenger Platform only allows up to 320 characters
-            # Use a plugin like https://github.com/ClaudeBot/hubot-longtext
-            # to handle long messages...
-            text: text.substring(0, 320)
-        }
-        message
-
-    postbackButtonMessage: (strings, buttons...) ->
-        buttonMessages = []
-        for button in buttons
-            buttonMessage = {
-                "type": "postback",
-                "title": button.title,
-                "payload": button.payload
-            }
-
-            buttonMessages.push buttonMessage
-
-        message = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "button",
-                    "test": strings,
-                    "buttons": buttonMessages
-                }
-            }
-        }
-        message
-
-    imageMessage: (url) ->
-        message = {
-            "attachment": {
-                "type":"image",
-                "payload": {
-                    "url": url
-                }
-            }
-        }
-        message
-
-    videmMessage: (url) ->
-        message = {
-            "attachment": {
-                "type":"video",
-                "payload": {
-                    "url": url
-                }
-            }
-        }
-        message
-
     reply: (envelope, strings...) ->
         @_sendMsg envelope, envelope.user.name + ": " + strings.join "\n #{envelope.user.name}: "
 
