@@ -61,7 +61,7 @@ class Messenger extends Adapter
         }
         message
 
-    postbackButtonMessage: (envelope, strings, buttons...) ->
+    postbackButtonMessage: (strings, buttons...) ->
         buttonMessages = []
         for button in buttons
             buttonMessage = {
@@ -84,7 +84,7 @@ class Messenger extends Adapter
         }
         message
 
-    imageMessage: (envelope, url) ->
+    imageMessage: (url) ->
         message = {
             "attachment": {
                 "type":"image",
@@ -95,7 +95,7 @@ class Messenger extends Adapter
         }
         message
 
-    videmMessage: (envelope, url) ->
+    videmMessage: (url) ->
         message = {
             "attachment": {
                 "type":"video",
