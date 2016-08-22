@@ -49,6 +49,9 @@ class Messenger extends Adapter
                     return @robot.logger.error "hubot-messenger-bot: error sending message - #{body} #{httpRes.statusCode} (#{err})"
 
     send: (envelope, strings...) ->
+        @_sendMsg envelope, strings
+
+    textMessage: (strings) ->
         text = strings.join "\n"
         message = {
             # Facebook Messenger Platform only allows up to 320 characters
@@ -56,9 +59,9 @@ class Messenger extends Adapter
             # to handle long messages...
             text: text.substring(0, 320)
         }
-        @_sendMsg envelope, message
+        message
 
-    sendPostbackButton: (envelope, strings, buttons...) ->
+    postbackButtonMessage: (envelope, strings, buttons...) ->
         buttonMessages = []
         for button in buttons
             buttonMessage = {
@@ -79,9 +82,9 @@ class Messenger extends Adapter
                 }
             }
         }
-        @_sendMsg envelope, message
+        message
 
-    sendImageMessage: (envelope, url) ->
+    imageMessage: (envelope, url) ->
         message = {
             "attachment": {
                 "type":"image",
@@ -90,9 +93,9 @@ class Messenger extends Adapter
                 }
             }
         }
-        @_sendMsg envelope, message
+        message
 
-    sendVidemMessage: (envelope, url) ->
+    videmMessage: (envelope, url) ->
         message = {
             "attachment": {
                 "type":"video",
@@ -101,7 +104,7 @@ class Messenger extends Adapter
                 }
             }
         }
-        @_sendMsg envelope, message
+        message
 
     reply: (envelope, strings...) ->
         @_sendMsg envelope, envelope.user.name + ": " + strings.join "\n #{envelope.user.name}: "
