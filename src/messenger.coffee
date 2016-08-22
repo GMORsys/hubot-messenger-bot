@@ -42,6 +42,7 @@ class Messenger extends Adapter
                 id: context.user.id
             message: msg
         })
+        console.log 'adapter message : ' + data
         @robot.http("#{@apiURL}/me/messages?access_token=#{@accessToken}")
             .header('Content-Type', 'application/json')
             .post(data) (err, httpRes, body) =>
