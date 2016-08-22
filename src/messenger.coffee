@@ -27,14 +27,22 @@ class Messenger extends Adapter
                 cb @robot.brain.userForId(userId, name: _userName, room: roomId)
 
     _processMsg: (msg) ->
-        return unless msg.message?.text?
-        _sender = msg.sender.id
-        _recipient = msg.recipient.id
-        _mid = msg.message.mid
-        _text = msg.message.text
-        @_createUser _sender, _recipient, (user) =>
-            message = new TextMessage user, _text.trim(), _mid
-            @receive(message) if message?
+        if msg.message?.text?
+            _sender = msg.sender.id
+            _recipient = msg.recipient.id
+            _mid = msg.message.mid
+            _text = msg.message.text
+            @_createUser _sender, _recipient, (user) =>
+                message = new TextMessage user, _text.trim(), _mid
+                @receive(message) if message?
+        if msg.postback?.payload?
+            _sender = msg.sender.id
+            _recipient = msg.recipient.id
+            _mid = ''
+            _text = msg.postback.payload
+            @_createUser _sender, _recipient, (user) =>
+                message = new TextMessage user, _text.trim(), _mid
+                @receive(message) if message?
 
     _sendMsg: (context, msg) ->
         data = JSON.stringify({
