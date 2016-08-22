@@ -50,7 +50,8 @@ class Messenger extends Adapter
                     return @robot.logger.error "hubot-messenger-bot: error sending message - #{body} #{httpRes.statusCode} (#{err})"
 
     send: (envelope, strings...) ->
-        @_sendMsg envelope, strings[0]
+        for sendMessage in strings
+            @_sendMsg envelope, sendMessage
 
     textMessage: (strings) ->
         text = strings.join "\n"
