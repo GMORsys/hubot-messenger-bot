@@ -40,7 +40,7 @@ class Messenger extends Adapter
         data = JSON.stringify({
             recipient:
                 id: context.user.id
-            message: msg
+            message: msg[0]
         })
         console.log 'adapter message : ' + data
         @robot.http("#{@apiURL}/me/messages?access_token=#{@accessToken}")
