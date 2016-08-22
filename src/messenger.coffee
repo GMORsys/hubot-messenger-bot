@@ -40,7 +40,7 @@ class Messenger extends Adapter
         data = JSON.stringify({
             recipient:
                 id: context.user.id
-            message: msg[0]
+            message: msg
         })
         console.log 'adapter message : ' + data
         @robot.http("#{@apiURL}/me/messages?access_token=#{@accessToken}")
@@ -50,7 +50,7 @@ class Messenger extends Adapter
                     return @robot.logger.error "hubot-messenger-bot: error sending message - #{body} #{httpRes.statusCode} (#{err})"
 
     send: (envelope, strings...) ->
-        @_sendMsg envelope, strings
+        @_sendMsg envelope, strings[0]
 
     textMessage: (strings) ->
         text = strings.join "\n"
